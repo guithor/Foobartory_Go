@@ -39,7 +39,6 @@ func main() {
     fmt.Println("time: ", duration)
 }
 
-
 /*
 boss
 */
@@ -88,15 +87,14 @@ func (s *stock) getAction() string {
         action = "sellFoobar"
     } else if len(s.foo) > 0 && len(s.bar) > 0 && len(s.foobar) < 5 {
         action = "buildFoobar"
-    } else if  len(s.bar) == 0 {
-        action = "mineBar"
-    } else {
+    } else if len(s.foo) < 6 {
         action = "mineFoo"
+    } else {
+        action = "mineBar"
     }
     s.mu.Unlock()
     return action
 }
-
 
 // execut: Launch the functions
 func (s *stock) execut(action string) {
@@ -162,6 +160,7 @@ func (s *stock) buildFoobar() {
     s.mu.Unlock()
 }
 
+// Sells foobars and earns 1 euros per foobar
 func (s *stock) sellFoobar() {
     fmt.Println("sellFoobar")
     time.Sleep(10 * time.Second)
@@ -178,6 +177,7 @@ func (s *stock) sellFoobar() {
     s.mu.Unlock()
 }
 
+// Buy one robot for 3 euros and 6 foo
 func (s *stock) buyRobot() {
     fmt.Println("buyRobot")
     s.mu.Lock()
